@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ChefAI - Smart Recipe Recommendation</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+
+        <div class="logo">
+            <span class="logo-icon">🍳</span>
+            <span>Chef<span class="logo-ai">AI</span></span>
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#recipes">Recipes</a>
+        </nav>
+
+        <button class="nav-btn" onclick="scrollToFinder()">
+            Find a Recipe
+        </button>
+
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                ✨ AI-Powered Recipe Discovery
+            </div>
+
+            <h1>
+                Turn Your Ingredients
+                <span>Into Delicious Meals.</span>
+            </h1>
+
+            <p>
+                Tell us what ingredients you have and our AI will
+                recommend delicious recipes you can make right now.
+            </p>
+
+            <button class="hero-btn" onclick="scrollToFinder()">
+                Find My Recipe →
+            </button>
+
+        </div>
+
+        <div class="hero-image">
+
+            <div class="food-card">
+                <div class="food-emoji">🍝</div>
+
+                <div>
+                    <strong>AI Recommended</strong>
+                    <p>Homemade Pasta</p>
+                </div>
+
+                <span class="match">96% Match</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECIPE FINDER -->
+    <section class="finder-section" id="finder">
+
+        <div class="section-heading">
+
+            <span class="small-title">YOUR INGREDIENTS</span>
+
+            <h2>
+                What's in your kitchen?
+            </h2>
+
+            <p>
+                Enter the ingredients you currently have.
+                We'll find recipes you can make with them.
+            </p>
+
+        </div>
+
+
+        <div class="finder-card">
+
+            <label for="ingredients">
+                🥕 Available Ingredients
+            </label>
+
+            <textarea
+                id="ingredients"
+                placeholder="Example: potato, onion, tomato, garlic, cheese..."
+            ></textarea>
+
+
+            <div class="preferences">
+
+                <div>
+                    <label>🍽️ Cuisine</label>
+
+                    <select id="cuisine">
+                        <option value="Any">Any Cuisine</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Mexican">Mexican</option>
+                    </select>
+                </div>
+
+
+                <div>
+                    <label>⏱️ Cooking Time</label>
+
+                    <select id="time">
+                        <option value="Any">Any Time</option>
+                        <option value="15">Under 15 min</option>
+                        <option value="30">Under 30 min</option>
+                        <option value="60">Under 1 hour</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <button class="find-btn" onclick="findRecipes()">
+                ✨ Find Recipes
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULTS -->
+    <section class="results-section" id="recipes">
+
+        <div class="section-heading">
+
+            <span class="small-title">AI RECOMMENDATIONS</span>
+
+            <h2>
+                Recipes you can make
+            </h2>
+
+            <p id="result-message">
+                Enter your ingredients above to discover recipes.
+            </p>
+
+        </div>
+
+
+        <div id="recipe-container" class="recipe-grid">
+
+            <!-- JavaScript will insert recipes here -->
+
+        </div>
+
+    </section>
+
+
+    <!-- RECIPE DETAILS -->
+    <section class="details-section" id="details">
+
+        <div id="recipe-details">
+
+            <!-- JavaScript inserts selected recipe -->
+
+        </div>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section class="how-section" id="how-it-works">
+
+        <div class="section-heading">
+
+            <span class="small-title">HOW IT WORKS</span>
+
+            <h2>
+                From ingredients to dinner.
+            </h2>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">01</div>
+
+                <h3>Enter Ingredients</h3>
+
+                <p>
+                    Tell ChefAI what ingredients you already have.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">02</div>
+
+                <h3>AI Finds Recipes</h3>
+
+                <p>
+                    Our AI analyzes your ingredients and recommends
+                    suitable recipes.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">03</div>
+
+                <h3>Cook With Video</h3>
+
+                <p>
+                    Get step-by-step instructions and a cooking video
+                    to help you prepare the dish.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="logo">
+            🍳 Chef<span class="logo-ai">AI</span>
+        </div>
+
+        <p>
+            Smart cooking starts with what you already have.
+        </p>
+
+        <p class="copyright">
+            © 2026 ChefAI. AI Recipe Recommendation System.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
