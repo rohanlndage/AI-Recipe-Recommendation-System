@@ -1,476 +1,105 @@
-// ==========================================
-// DEMO RECIPE DATABASE
-// ==========================================
+console.log("ChefAI script loaded!");
 
-const recipes = [
+// =====================================================
+// YOUTUBE API KEY
+// =====================================================
 
-    {
-        name: "Potato Masala",
-        description: "A simple and delicious Indian-style potato masala.",
-        cuisine: "Indian",
-        time: 30,
-        difficulty: "Easy",
+// Paste your YouTube Data API v3 key here
+const YOUTUBE_API_KEY = "AIzaSyD-9jMt3DH4t207rLOTIu7IJxkH_8uBU28";
 
-        ingredients: [
-            "3 potatoes",
-            "1 onion",
-            "2 tomatoes",
-            "3 garlic cloves",
-            "1 tbsp cooking oil",
-            "1 tsp turmeric",
-            "1 tsp chilli powder",
-            "Salt to taste"
-        ],
 
-        steps: [
-            "Wash and peel the potatoes.",
-            "Cut the potatoes into small pieces.",
-            "Heat oil in a pan.",
-            "Add chopped onion and garlic.",
-            "Cook until the onion becomes golden.",
-            "Add chopped tomatoes and cook for 3–4 minutes.",
-            "Add turmeric, chilli powder and salt.",
-            "Add the potatoes and mix everything well.",
-            "Cover the pan and cook for 10–15 minutes.",
-            "Serve hot."
-        ],
+// =====================================================
+// SCROLL TO RECIPE FINDER
+// =====================================================
 
-        image:
-            "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80"
-    },
+function scrollToFinder() {
 
-
-    {
-        name: "Tomato Pasta",
-        description: "Quick creamy-style tomato pasta made with simple ingredients.",
-        cuisine: "Italian",
-        time: 25,
-        difficulty: "Easy",
-
-        ingredients: [
-            "200g pasta",
-            "2 tomatoes",
-            "1 onion",
-            "3 garlic cloves",
-            "1 tbsp oil",
-            "1 tsp chilli flakes",
-            "Salt",
-            "Cheese"
-        ],
-
-        steps: [
-            "Boil water and cook the pasta.",
-            "Drain the pasta and keep it aside.",
-            "Heat oil in a pan.",
-            "Add chopped garlic and onion.",
-            "Cook until soft.",
-            "Add chopped tomatoes.",
-            "Cook until the tomatoes become soft.",
-            "Add chilli flakes and salt.",
-            "Add the cooked pasta.",
-            "Mix everything together.",
-            "Add cheese and serve."
-        ],
-
-        image:
-            "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=900&q=80"
-    },
-
-
-    {
-        name: "Vegetable Fried Rice",
-        description: "Fast and tasty fried rice using vegetables from your kitchen.",
-        cuisine: "Chinese",
-        time: 25,
-        difficulty: "Easy",
-
-        ingredients: [
-            "2 cups cooked rice",
-            "1 onion",
-            "1 carrot",
-            "1 capsicum",
-            "2 garlic cloves",
-            "1 tbsp cooking oil",
-            "1 tbsp soy sauce",
-            "Salt"
-        ],
-
-        steps: [
-            "Cook the rice and allow it to cool.",
-            "Heat oil in a large pan.",
-            "Add garlic and onion.",
-            "Add chopped carrot and capsicum.",
-            "Stir-fry the vegetables for a few minutes.",
-            "Add the cooked rice.",
-            "Add soy sauce and salt.",
-            "Mix everything on high heat.",
-            "Cook for another 2–3 minutes.",
-            "Serve hot."
-        ],
-
-        image:
-            "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=900&q=80"
-    }
-
-];
-
-
-// ==========================================
-// FIND RECIPES
-// ==========================================
-
-function findRecipes() {
-
-    const ingredientInput =
-        document.getElementById("ingredients").value.toLowerCase();
-
-    const cuisine =
-        document.getElementById("cuisine").value;
-
-    const time =
-        document.getElementById("time").value;
-
-
-    if (!ingredientInput.trim()) {
-
-        alert("Please enter some ingredients first.");
-
-        return;
-    }
-
-
-    const ingredients =
-        ingredientInput
-        .split(",")
-        .map(item => item.trim());
-
-
-    let filteredRecipes = recipes.filter(recipe => {
-
-        const cuisineMatch =
-            cuisine === "Any" ||
-            recipe.cuisine === cuisine;
-
-        const timeMatch =
-            time === "Any" ||
-            recipe.time <= Number(time);
-
-
-        return cuisineMatch && timeMatch;
-
-    });
-
-
-    /*
-        In the demo we display all suitable recipes.
-
-        Later this section will be replaced by our AI API.
-    */
-
-    displayRecipes(filteredRecipes);
-
-    document.getElementById("recipes")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
-
-}
-
-
-// ==========================================
-// DISPLAY RECIPE CARDS
-// ==========================================
-
-function displayRecipes(recipeList) {
-
-    const container =
-        document.getElementById("recipe-container");
-
-    const message =
-        document.getElementById("result-message");
-
-
-    container.innerHTML = "";
-
-
-    if (recipeList.length === 0) {
-
-        message.innerText =
-            "No recipes found. Try different preferences.";
-
-        return;
-    }
-
-
-    message.innerText =
-        `${recipeList.length} recipes found based on your preferences.`;
-
-
-    recipeList.forEach((recipe, index) => {
-
-        const card =
-            document.createElement("div");
-
-        card.className = "recipe-card";
-
-
-        card.innerHTML = `
-
-            <div
-                class="recipe-image"
-                style="background-image:url('${recipe.image}')">
-            </div>
-
-            <div class="recipe-content">
-
-                <h3>${recipe.name}</h3>
-
-                <p>
-                    ${recipe.description}
-                </p>
-
-                <div class="recipe-meta">
-
-                    <span class="meta">
-                        ⏱ ${recipe.time} min
-                    </span>
-
-                    <span class="meta">
-                        ${recipe.difficulty}
-                    </span>
-
-                    <span class="meta">
-                        ${recipe.cuisine}
-                    </span>
-
-                </div>
-
-                <button
-                    class="recipe-btn"
-                    onclick="showRecipe(${index})">
-
-                    View Recipe →
-
-                </button>
-
-            </div>
-        `;
-
-
-        container.appendChild(card);
-
-    });
-
-
-    window.currentRecipes = recipeList;
-}
-
-
-// ==========================================
-// SHOW SELECTED RECIPE
-// ==========================================
-
-function showRecipe(index) {
-
-    const recipe =
-        window.currentRecipes[index];
-
-
-    const details =
-        document.getElementById("recipe-details");
-
-
-    details.innerHTML = `
-
-        <div class="recipe-detail">
-
-            <div class="detail-header">
-
-                <span class="small-title">
-                    AI RECIPE
-                </span>
-
-                <h2>
-                    ${recipe.name}
-                </h2>
-
-                <p>
-                    ${recipe.description}
-                </p>
-
-            </div>
-
-
-            <div class="detail-body">
-
-                <div>
-
-                    <h3>
-                        🥕 Ingredients
-                    </h3>
-
-                    <ul class="ingredients-list">
-
-                        ${recipe.ingredients.map(
-                            ingredient =>
-                            `<li>✓ ${ingredient}</li>`
-                        ).join("")}
-
-                    </ul>
-
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        👨‍🍳 Step-by-Step Instructions
-                    </h3>
-
-                    <ol class="steps-list">
-
-                        ${recipe.steps.map(
-                            step =>
-                            `<li>${step}</li>`
-                        ).join("")}
-
-                    </ol>
-
-                </div>
-
-            </div>
-
-
-            <div class="video-section">
-
-                <h3>
-                    🎥 How to Cook ${recipe.name}
-                </h3>
-
-                <p>
-                    Search for a cooking video for this recipe.
-                </p>
-
-
-                <div class="video-search">
-
-                    <input
-                        id="videoQuery"
-                        value="${recipe.name} recipe cooking"
-                    >
-
-                    <button
-                        onclick="searchVideo()">
-
-                        🔎 Search Video
-
-                    </button>
-
-                </div>
-
-
-                <div
-                    id="videoResult"
-                    class="video-placeholder">
-
-                    <div>
-
-                        <span>▶️</span>
-
-                        <strong>
-                            Cooking Video
-                        </strong>
-
-                        <p>
-                            Click "Search Video" to find
-                            a cooking tutorial.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    `;
-
-
-    details.scrollIntoView({
+    document.getElementById("finder").scrollIntoView({
         behavior: "smooth"
     });
 
 }
 
 
-// ==========================================
-// VIDEO SEARCH DEMO
-// ==========================================
+// =====================================================
+// FIND RECIPES
+// =====================================================
 
-function searchVideo() {
+function findRecipes() {
 
-    const query =
-        document.getElementById("videoQuery").value;
+    console.log("FIND RECIPES BUTTON CLICKED");
+
+    const ingredients =
+        document.getElementById("ingredients").value.trim();
+
+    const cuisine =
+        document.getElementById("cuisine").value;
+
+    const cookingTime =
+        document.getElementById("time").value;
 
 
-    if (!query.trim()) {
+    console.log("Ingredients:", ingredients);
+    console.log("Cuisine:", cuisine);
+    console.log("Cooking Time:", cookingTime);
 
-        alert("Enter a recipe name.");
+
+    // Check ingredients
+
+    if (ingredients === "") {
+
+        alert("Please enter your ingredients first!");
 
         return;
     }
 
 
-    /*
-        DEMO VERSION
+    // Update message
 
-        Later we will replace this with:
-        YouTube Data API / another video API.
-
-        We are intentionally NOT putting an API key
-        directly into this frontend.
-    */
+    document.getElementById("result-message").innerText =
+        "Recipe recommendation generated successfully!";
 
 
-    const searchURL =
-        "https://www.youtube.com/results?search_query="
-        + encodeURIComponent(query);
+    // Show recipe
 
+    document.getElementById("recipe-container").innerHTML = `
 
-    const videoResult =
-        document.getElementById("videoResult");
+        <div class="recipe-card">
 
-
-    videoResult.innerHTML = `
-
-        <div>
-
-            <span>🎥</span>
-
-            <strong>
-                Video Search Ready
-            </strong>
+            <h2>🥔 Potato Masala</h2>
 
             <p>
-                Searching YouTube for:
-                <br>
-                <b>${query}</b>
+                A simple and delicious recipe based on your available
+                ingredients.
             </p>
 
-            <br>
+            <div class="recipe-info">
+
+                <p>
+                    <strong>🥕 Your Ingredients:</strong>
+                    ${ingredients}
+                </p>
+
+                <p>
+                    <strong>🍽️ Cuisine:</strong>
+                    ${cuisine}
+                </p>
+
+                <p>
+                    <strong>⏱️ Cooking Time:</strong>
+                    ${cookingTime === "Any"
+                        ? "Any"
+                        : "Under " + cookingTime + " minutes"}
+                </p>
+
+            </div>
+
 
             <button
-                onclick="window.open('${searchURL}', '_blank')"
-                style="
-                    border:none;
-                    padding:12px 20px;
-                    border-radius:8px;
-                    background:#e85b35;
-                    color:white;
-                    cursor:pointer;
-                ">
+                class="view-recipe-btn"
+                onclick="searchYouTube()">
 
-                Watch Cooking Videos →
+                🎥 Find Cooking Video
 
             </button>
 
@@ -478,18 +107,274 @@ function searchVideo() {
 
     `;
 
+
+    console.log("Recipe displayed successfully!");
 }
 
 
-// ==========================================
-// SCROLL TO FINDER
-// ==========================================
+// =====================================================
+// SEARCH YOUTUBE
+// =====================================================
 
-function scrollToFinder() {
+async function searchYouTube() {
 
-    document.getElementById("finder")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
+    console.log("YOUTUBE SEARCH STARTED");
+
+
+    const container =
+        document.getElementById("recipe-container");
+
+
+    // Check API key
+
+    if (
+        YOUTUBE_API_KEY ===
+        "PASTE_YOUR_YOUTUBE_API_KEY_HERE"
+    ) {
+
+        container.innerHTML += `
+
+            <div class="error-box">
+
+                <h3>❌ YouTube API Key Missing</h3>
+
+                <p>
+                    Please add your YouTube Data API v3 key
+                    inside script.js.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    // Show loading
+
+    container.innerHTML += `
+
+        <div class="loading">
+
+            🔎 Searching YouTube for cooking videos...
+
+        </div>
+
+    `;
+
+
+    // Recipe search query
+
+    const recipeName =
+        "Potato Masala cooking recipe";
+
+
+    // YouTube API URL
+
+    const url =
+        "https://www.googleapis.com/youtube/v3/search" +
+        "?part=snippet" +
+        "&type=video" +
+        "&maxResults=6" +
+        "&q=" +
+        encodeURIComponent(recipeName) +
+        "&key=" +
+        YOUTUBE_API_KEY;
+
+
+    console.log("YouTube request started");
+
+
+    try {
+
+        const response =
+            await fetch(url);
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "YouTube response:",
+            data
+        );
+
+
+        // API error
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error?.message ||
+                "YouTube API request failed"
+            );
+
+        }
+
+
+        // Display videos
+
+        displayVideos(data.items);
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "YouTube ERROR:",
+            error
+        );
+
+
+        container.innerHTML += `
+
+            <div class="error-box">
+
+                <h3>❌ YouTube Error</h3>
+
+                <p>
+                    ${error.message}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// =====================================================
+// DISPLAY YOUTUBE VIDEOS
+// =====================================================
+
+function displayVideos(videos) {
+
+    const container =
+        document.getElementById("recipe-container");
+
+
+    if (!videos || videos.length === 0) {
+
+        container.innerHTML += `
+
+            <div class="error-box">
+
+                <h3>😕 No Videos Found</h3>
+
+                <p>
+                    We couldn't find a cooking video
+                    for this recipe.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    // Remove loading message
+
+    const loading =
+        container.querySelector(".loading");
+
+    if (loading) {
+
+        loading.remove();
+
+    }
+
+
+    // Video section heading
+
+    const heading =
+        document.createElement("div");
+
+    heading.className =
+        "youtube-heading";
+
+    heading.innerHTML = `
+
+        <h2>🎥 Recommended Cooking Videos</h2>
+
+        <p>
+            Watch a step-by-step video to prepare your recipe.
+        </p>
+
+    `;
+
+    container.appendChild(heading);
+
+
+    // Display each video
+
+    videos.forEach(video => {
+
+        const videoId =
+            video.id.videoId;
+
+        const title =
+            video.snippet.title;
+
+        const channel =
+            video.snippet.channelTitle;
+
+        const thumbnail =
+            video.snippet.thumbnails.medium.url;
+
+
+        const videoCard =
+            document.createElement("div");
+
+        videoCard.className =
+            "video-card";
+
+
+        videoCard.innerHTML = `
+
+            <img
+                src="${thumbnail}"
+                alt="Cooking video thumbnail"
+            >
+
+
+            <div class="video-info">
+
+                <h3>
+                    ${title}
+                </h3>
+
+                <p>
+                    📺 ${channel}
+                </p>
+
+                <a
+                    href="https://www.youtube.com/watch?v=${videoId}"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    ▶ Watch Video
+
+                </a>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(videoCard);
+
+    });
+
+
+    console.log(
+        "YouTube videos displayed:",
+        videos.length
+    );
 
 }
